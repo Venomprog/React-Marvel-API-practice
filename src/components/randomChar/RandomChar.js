@@ -22,7 +22,7 @@ class RandomChar extends Component {
     }
 
     updateChar = () => {
-        const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000)
+        const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000) //берём диапозон делаем из него рандом и прибавляем минимальное значение чтобы найти персонажа
         this.marvelService
             .getCharacter(id)
             .then(this.onCharLoaded) //Когда метод вызывается так то в него сразу передаётся как аргумент результат от промиса
