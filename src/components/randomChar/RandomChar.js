@@ -3,14 +3,10 @@ import './randomChar.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
 import Spinner from '../spinner/spinner';
 import MarvelService from '../../services/MarvelService';
+import ErrorMessage from '../errorMessage/ErrorMessage';
 
 
 class RandomChar extends Component {
-
-    constructor (props) {
-        super(props);
-        this.updateChar();
-    }
 
     state = {
         char: {},
@@ -36,16 +32,29 @@ class RandomChar extends Component {
             .catch(this.onError)
     }
 
+    componentDidMount () {
+        this.updateChar();
+
+    }
+
+
 
     render(){
-        const {char, loading} = this.state //Деструктуризация из свойства чар достаём все сущности
+        const {char, loading, error} = this.state //Деструктуризация из свойства чар достаём все сущности
         let {description} = char
         if (description === ''){
             description = 'К сожалению на этого персонажа у нас нету данных';
         }
+
+        const errorMessage = error ? <ErrorMessage/> : null;
+        const spinner = loading ? <Spinner/> : null;
+        const content = !(loading || error) ? <View char={char}/> : null;
+
         return (
             <div className="randomchar">
-                {loading ? <Spinner/> : <View char={char}/>}
+                {errorMessage}
+                {spinner}
+                {content}
                 <div className="randomchar__static">
                     <p className="randomchar__title">
                         Random character for today!<br/>
