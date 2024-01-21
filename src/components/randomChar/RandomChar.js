@@ -21,12 +21,19 @@ class RandomChar extends Component {
         this.setState({char, loading: false});
     }
 
+    onCharLoading = () => {
+        this.setState({
+            loading: true,
+        })
+    }
+
     onError = () => {
         this.setState({loading: false, error: true});
     }
 
     updateChar = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000) //берём диапозон делаем из него рандом и прибавляем минимальное значение чтобы найти персонажа
+        this.onCharLoading()
         this.marvelService
             .getCharacter(id)
             .then(this.onCharLoaded) //Когда метод вызывается так то в него сразу передаётся как аргумент результат от промиса
@@ -46,6 +53,7 @@ class RandomChar extends Component {
             description = 'К сожалению на этого персонажа у нас нету данных';
         }
 
+        
         const errorMessage = error ? <ErrorMessage/> : null;
         const spinner = loading ? <Spinner/> : null;
         const content = !(loading || error) ? <View char={char} img={img}/> : null;
